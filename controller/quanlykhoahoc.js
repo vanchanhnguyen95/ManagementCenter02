@@ -117,7 +117,7 @@ $(document).ready(function () {
     });
 
 
-
+    CKEDITOR.replace("txtEditor");
 
 
 })
