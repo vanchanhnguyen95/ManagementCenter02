@@ -5,7 +5,7 @@ $(document).ready(function(){
         return element;
     }
 
-    var arrNote = ["nhập tài khoản","aaa"];
+    var arrNote = ["Nhập tài khoản...","Nhập mật khẩu...","Nhập họ tên...","Nhập email...@gmail.com", "Số điện thoại nhập 10 số trở lên...","Nhập mã khóa học...", "Nhập tên khóa học... "];
 
     function Note(id,ad)
     {
@@ -14,7 +14,6 @@ $(document).ready(function(){
         thongBao.style.color = "red";
         thongBao.innerHTML = arrNote[ad];
     }
-
 
     /**Định nghĩa sự liện click cho  nút button id=btnAddUser*/
     $("#btnAddUser").click(OpenPoupModal);
@@ -63,29 +62,41 @@ $(document).ready(function(){
         if(TestEnterEmpty("TaiKhoan","NoteTK", taiKhoan,0) == true)
         {
             error++;
+        }
+        if(TestEnterEmpty("MatKhau","NoteMK", matKhau,1) == true)
+        {
+            error++;
+        }
+        if(TestEnterEmpty("HoTen", "NoteHT", hoTen, 2) == true)
+        {
+            error++;
+        }
+        
+        if (validate.TestEmail(email)){
+            DomID("Email").style.borderColor = "green";
+            DomID("NoteE").style.display = "none";
+        }
+        else{
+            Note("NoteE",3)
+            DomID("Email").style.borderColor = "red";
+            error++;
+        }
 
+        if (validate.TestNumber(soDT)){
+            DomID("SoDT").style.borderColor = "green";
+            DomID("NoteSDT").style.display = "none";
         }
-        if(TestEnterEmpty("MatKhau","NoteTK", matKhau,0) == true)
+        else{
+            Note("NoteSDT",4)
+            DomID("SoDT").style.borderColor = "red";
+            error++;
+        }
+
+        if(TestEnterEmpty("MaLoai", "NoteML", maLoai, 5) == true)
         {
             error++;
         }
-        if(TestEnterEmpty("HoTen", "NoteTK", hoTen,0) == true)
-        {
-            error++;
-        }
-        if(TestEnterEmpty("Email", "NoteTK",email, 0) == true)
-        {
-            error++;
-        }
-        if(TestEnterEmpty("SoDT", "NoteTK", soDT, 0) == true)
-        {
-            error++;
-        }
-        if(TestEnterEmpty("MaLoai", "NoteTK", maLoai, 0) == true)
-        {
-            error++;
-        }
-        if(TestEnterEmpty("TenLoai", "NoteTK", tenLoai, 0) == true)
+        if(TestEnterEmpty("TenLoai", "NoteTL", tenLoai, 6) == true)
         {
             error++;
         }
@@ -131,6 +142,7 @@ $(document).ready(function(){
         else
         {
             DomID(ID).style.borderColor = "green";
+            thongBao.style.display = "none";
             return false;
         }
     }
