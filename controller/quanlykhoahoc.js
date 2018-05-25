@@ -60,18 +60,84 @@ $(document).ready(function () {
             noiDung += `
                 <tr class="trKhoaHoc">
                     <td><input type="checkbox" class="ckbMaKH" value="${khoaHoc.MaKH}" /></td>
-                    <td>${khoaHoc.MaKhoaHoc}</td>
-                    <td>${khoaHoc.TenKhoaHoc}</td>
-                    <td>${khoaHoc.LuotXem}</td>
-                    <td>${khoaHoc.HinhAnh}</td>
-                    <td>${khoaHoc.LuotXem}</td>
-                    <td><img src="${khoaHoc.NguoiTao}" width="50" height="50" /></td>
+                    <td class="MaKH">${khoaHoc.MaKhoaHoc}</td>
+                    <td class="TenKH">${khoaHoc.TenKhoaHoc}</td>
+                    <td class="MoTa" style="height:20px; width:20px">${khoaHoc.MoTa}</td>
+                    <td class="HinhAnh"><img src="${khoaHoc.HinhAnh}" width="30" height="30"/></td>
+                    <td class="LuotXem">${khoaHoc.LuotXem}</td>
+                    <td class="NguoiTao">${khoaHoc.NguoiTao}</td>
+                    <td><button class="btn btn-primary btnChinhSua" MaKhoaHoc="${khoaHoc.MaKhoaHoc}">Chỉnh Sửa</button></td>
                 </tr>
             `;
         }
 
         $("#tblDanhSachKhoaHoc").html(noiDung);
     }
+
+    /**Load ngược lên Popup chỉnh sửa */
+    $("body").delegate(".btnChinhSua", "click", function(){
+        //khóa input MaKH
+        $("#MaKH").attr("readonly", true);
+        //Clear dữ liệu textbox.txtF
+        $(".txtF").val("");
+        //Tạo phần nội dung modalTitle
+        var modalTitle = "Chỉnh sửa khóa học";
+        var modalFooter = `
+            <button id="btnLuu" class="btn btn-success">Lưu</button>
+            <button id="btnDong" class="btn btn-danger">Đóng</button>
+        
+        `;
+        //Dom truyền nội dung thay đổi
+        $(".modal-title").html(modalTitle);
+        $(".modal-footer").html(modalFooter);
+
+        //Load phần nội dung chỉnh sửa lên popup
+        var trKhoaHoc = $(this).closest(".trKhoaHoc");
+        var maKH = trKhoaHoc.find(".MaKH").html().trim();
+        var tenKH = trKhoaHoc.find(".TenKH").html().trim();
+        var moTa = trKhoaHoc.find(".MoTa").html().trim();
+        var luotXem = trKhoaHoc.find(".LuotXem").html().trim();
+        var hinhAnh = trKhoaHoc.find(".HinhAnh").find("img").attr("src");
+        var nguoiTao = trKhoaHoc.find(".NguoiTao").html().trim();
+        $("#MaKH").val(maKH);
+        $("#TenKH").val(tenKH);
+        //Dùng cú pháp để gán nội dung cho ckeditor
+        CKEDITOR.instances["MoTa"].setData(moTa);
+        $("#LuotXem").val(luotXem);
+        $("#HinhAnh").val(hinhAnh);
+        $("#NguoiTao").val(nguoiTao);
+        //Gọi nút OpenPopupModal
+        $("#btnPopupModal").trigger("click");
+
+
+    })
+
+    /**Lưu cập nhật khóa học */
+    $("body").delegate("#btnLuu","click", function(){
+        //Lấy thông tin từ giá trị từ thuộc tính người dùng thay đổi
+        var maKH = $("#MaKH").val();
+        var tenKH = $("#TenKH").val();
+        var moTa = CKEDITOR.instances["MoTa"].getData();//Lấy giá trị từ editor
+        var hinhAnh = $("#HinhAnh").val();
+        var luotXem = $("#LuotXem").val();
+        var nguoiTao = $("#NguoiTao").val();
+
+        var khoaHoc = new KhoaHoc(maKH, tenKH, moTa, hinhAnh, luotXem, nguoiTao);
+        khoaHocService.CapNhatKhoaHoc(khoaHoc)
+        .done(function(result){
+            alert("Chỉnh sửa thành công")
+            console.log(result)
+            window.location.reload();
+        })
+        .fail(function(error){
+            alert("Chỉnh sửa thất bại")
+            console.log(error);
+        });
+        
+        //Mở input MaKH
+        $("#MaKH").attr("readonly", false);
+    });
+
 
 
     $("#btnThemKH").click(OpenPopupModal);
@@ -117,7 +183,9 @@ $(document).ready(function () {
     });
 
 
-    CKEDITOR.replace("txtEditor");
-
+    CKEDITOR.replace("MoTa", {
+        allowedContent: "iframe[*]"
+    });
+    // CKEDITOR.replace("txtEDITOR");
 
 })
