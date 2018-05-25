@@ -10,4 +10,15 @@ function KhoaHocService()
 
         })
     }
+    this.ThemKhoaHoc = function(khoaHoc)
+    {
+        var urlAPI = "http://sv.myclass.vn/api/QuanLyTrungTam/ThemKhoaHoc";
+        return $.ajax({
+            type: "POST",
+            dataType: "json",
+            url: urlAPI,
+            data: khoaHoc
+            
+        })
+    }
 }

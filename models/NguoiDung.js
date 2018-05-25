@@ -1,4 +1,4 @@
-function User(taiKhoan, matKhau, hoTen, email, soDT, maLoai, tenLoai)
+function NguoiDung(taiKhoan, matKhau, hoTen, email, soDT, maLoai, tenLoai)
 {
     this.TaiKhoan = taiKhoan;
     this.MatKhau = matKhau;
