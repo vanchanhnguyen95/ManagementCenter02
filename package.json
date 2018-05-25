@@ -3,13 +3,21 @@
   "version": "1.0.0",
   "description": "**Sufee** is a responsive Bootstrap 4 Admin Template. It provides you with a collection of ready to use code snippets and utilities, custom pages, a collection of applications and some useful widgets. Preview of this awesome admin template available here: https://colorlib.com/polygon/sufee/index.html",
   "main": "index.js",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "lite-server": "^2.3.0"
   },
-  "devDependencies": {},
   "scripts": {
     "start": "lite-server"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vanchanhnguyen95/ManagementCenter02.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vanchanhnguyen95/ManagementCenter02/issues"
+  },
+  "homepage": "https://github.com/vanchanhnguyen95/ManagementCenter02#readme"
 }
